@@ -1,0 +1,69 @@
+#Revising Aggregations - The Count Function
+SELECT COUNT(DISTINCT NAME) FROM CITY
+WHERE POPULATION > 100000
+
+#Revising Aggregations - The Sum Function
+SELECT SUM(POPULATION) FROM CITY
+WHERE DISTRICT = 'California'
+
+#Revising Aggregations - Averages
+SELECT AVG(POPULATION) FROM CITY
+WHERE DISTRICT = 'California'
+
+#Average Population
+SELECT FLOOR(AVG(POPULATION)) FROM CITY
+
+#Japan Population
+SELECT SUM(POPULATION) FROM CITY
+WHERE COUNTRYCODE  = 'JPN'
+
+#Population Density Difference
+SELECT (MAX(POPULATION) - MIN(POPULATION)) FROM CITY
+
+#The Blunder
+SELECT ceil(AVG(Salary - REPLACE(Salary,'0','')))FROM EMPLOYEES
+
+#Top Earners
+SELECT salary*months, count(*) FROM Employee 
+GROUP BY salary*months ORDER BY salary*months DESC LIMIT 1
+
+#Weather Observation Station 2
+SELECT ROUND(SUM(LAT_N),2),ROUND(SUM(LONG_W),2) FROM STATION 
+
+#Weather Observation Station 13
+SELECT ROUND(SUM(LAT_N),4) FROM STATION
+WHERE LAT_N>38.7880 AND LAT_N < 137.2345
+
+#Weather Observation Station 14
+SELECT ROUND(LAT_N,4) FROM STATION
+WHERE LAT_N < 137.2345
+ORDER BY LAT_N DESC LIMIT 1
+
+#Weather Observation Station 15
+SELECT ROUND(LONG_W,4) FROM STATION
+WHERE LAT_N < 137.2345
+ORDER BY LAT_N DESC LIMIT 1
+
+#Weather Observation Station 16
+SELECT ROUND(LAT_N,4) FROM STATION
+WHERE LAT_N > 38.7780
+ORDER BY LAT_N ASC LIMIT 1
+
+#Weather Observation Station 17
+SELECT ROUND(LONG_W,4) FROM STATION
+WHERE LAT_N > 38.7780
+ORDER BY LAT_N ASC LIMIT 1
+
+#Weather Observation Station 18
+SELECT ROUND(ABS(MIN(LAT_N)-MAX(LAT_N))+ ABS(MIN(LONG_W )-MAX(LONG_W )),4) 
+FROM STATION 
+
+#Weather Observation Station 19
+SELECT ROUND(SQRT(POWER(MIN(LONG_W)-MAX(LONG_W),2)+POWER(MIN(LAT_N)-MAX(LAT_N),2)),4) 
+FROM STATION
+
+#Weather Observation Station 20
+SET @r := -1;
+SELECT ROUND(AVG(LAT_N),4) FROM
+ (SELECT @r := @r + 1 AS i, LAT_N FROM STATION order by LAT_N) temp
+ WHERE i = @r/2 or i between CEIL(@r/2) and FLOOR(@r/2)
